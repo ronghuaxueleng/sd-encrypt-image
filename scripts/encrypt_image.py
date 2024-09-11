@@ -87,9 +87,10 @@ def set_shared_options():
 
 def app_started_callback(_: Blocks, app: FastAPI):
     set_shared_options()
-    app.middleware_stack = None  # reset current middleware to allow modifying user provided list
-    hook_http_request(app)
-    app.build_middleware_stack()  # rebuild middleware stack on-the-fly
+    if password:
+        app.middleware_stack = None  # reset current middleware to allow modifying user provided list
+        hook_http_request(app)
+        app.build_middleware_stack()  # rebuild middleware stack on-the-fly
     
 
 if PILImage.Image.__name__ != 'EncryptedImage':
